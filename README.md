@@ -11,6 +11,7 @@ A full-stack Task Manager Web Application built using FastAPI and React with JWT
 - User Login
 - JWT Authentication
 - Password Hashing using bcrypt
+- Role-Based Access Control (Admin/User)
 
 ### Task Management
 - Create Tasks
@@ -18,7 +19,15 @@ A full-stack Task Manager Web Application built using FastAPI and React with JWT
 - Update Tasks
 - Mark Tasks as Completed
 - Delete Tasks
-
+- User-Specific Task Access
+- Pagination Support
+- Task Filtering
+  
+##  Admin Features
+- Admin Dashboard
+- View All Registered Users
+- Protected Admin APIs
+  
 ### Frontend
 - Modern responsive UI
 - Login/Register page
@@ -26,6 +35,7 @@ A full-stack Task Manager Web Application built using FastAPI and React with JWT
 - Task cards with status colors
 - Auto login after registration
 - Logout functionality
+- Admin Panel Integration
 
 ---
 
@@ -301,11 +311,9 @@ The frontend UI is responsive and supports:
 #  Additional Features
 
 - Auto login after registration
-- Edit task functionality
-- Complete task functionality
-- Logout functionality
-- Pagination support
-- Task filtering support
+- Role based access
+- Docker support
+- Pytest integration
 
 #  Future Improvements
 
@@ -313,8 +321,6 @@ The frontend UI is responsive and supports:
 - Dark mode
 - Task categories
 - Due dates
-- Docker support
-- Pytest integration
 
 ---
 
