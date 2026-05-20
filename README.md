@@ -12,6 +12,7 @@ A full-stack Task Manager Web Application built using FastAPI and React with JWT
 - JWT Authentication
 - Password Hashing using bcrypt
 - Role-Based Access Control (Admin/User)
+- Api versioning
 
 ### Task Management
 - Create Tasks
