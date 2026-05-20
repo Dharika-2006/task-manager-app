@@ -17,7 +17,7 @@ function App() {
   try {
 
     await axios.post(
-      "http://127.0.0.1:8000/register",
+      "https://task-manager-backend-9di4.onrender.com/register",
       {
         email,
         password
@@ -30,7 +30,7 @@ function App() {
     formData.append("password", password);
 
     const loginResponse = await axios.post(
-      "http://127.0.0.1:8000/login",
+      "https://task-manager-backend-9di4.onrender.com/login",
       formData,
       {
         headers: {
@@ -69,7 +69,7 @@ function App() {
       formData.append("password", password);
 
       const response = await axios.post(
-        "http://127.0.0.1:8000/login",
+        "https://task-manager-backend-9di4.onrender.com/login",
         formData,
         {
           headers: {
@@ -101,7 +101,7 @@ function App() {
     try {
 
       const response = await axios.get(
-        "http://127.0.0.1:8000/tasks",
+        "https://task-manager-backend-9di4.onrender.com/tasks",
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -124,7 +124,7 @@ function App() {
     try {
 
       await axios.post(
-        "http://127.0.0.1:8000/tasks",
+        "https://task-manager-backend-9di4.onrender.com/tasks",
         {
           title
         },
@@ -152,7 +152,7 @@ function App() {
     try {
 
       await axios.delete(
-        `http://127.0.0.1:8000/tasks/${id}`,
+        `https://task-manager-backend-9di4.onrender.com/tasks/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -175,7 +175,7 @@ function App() {
     try {
 
       await axios.put(
-        `http://127.0.0.1:8000/tasks/${task.id}`,
+        `https://task-manager-backend-9di4.onrender.com/tasks/${task.id}`,
         {
           title: task.title,
           completed: !task.completed
@@ -513,7 +513,7 @@ function App() {
                       if (!updatedTitle) return;
 
                       axios.put(
-                        `http://127.0.0.1:8000/tasks/${task.id}`,
+                        `https://task-manager-backend-9di4.onrender.com/tasks/${task.id}`,
                         {
                           title: updatedTitle,
                           completed: task.completed
