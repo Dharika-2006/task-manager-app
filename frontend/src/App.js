@@ -5,19 +5,20 @@ function App() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [users, setUsers] = useState([]);
   const [title, setTitle] = useState("");
 
   const [tasks, setTasks] = useState([]);
 
   const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
 
   const register = async () => {
 
   try {
 
     await axios.post(
-      "https://task-manager-backend-9di4.onrender.com/register",
+      "http://127.0.0.1:8000/register",
       {
         email,
         password
@@ -30,7 +31,7 @@ function App() {
     formData.append("password", password);
 
     const loginResponse = await axios.post(
-      "https://task-manager-backend-9di4.onrender.com/login",
+      "http://127.0.0.1:8000/login",
       formData,
       {
         headers: {
@@ -69,7 +70,7 @@ function App() {
       formData.append("password", password);
 
       const response = await axios.post(
-        "https://task-manager-backend-9di4.onrender.com/login",
+        "http://127.0.0.1:8000/login",
         formData,
         {
           headers: {
@@ -83,6 +84,10 @@ function App() {
         "token",
         response.data.access_token
       );
+      localStorage.setItem(
+        "role",
+        response.data.role
+      );
 
       alert("Login successful");
 
@@ -95,36 +100,56 @@ function App() {
     }
 
   };
-
   const fetchTasks = async () => {
 
-    try {
+  try {
 
-      const response = await axios.get(
-        "https://task-manager-backend-9di4.onrender.com/tasks",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+    const response = await axios.get(
+      "http://127.0.0.1:8000/tasks",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
         }
-      );
+      }
+    );
 
-      setTasks(response.data);
+    setTasks(response.data);
 
-    } catch (error) {
+  } catch (error) {
 
-      console.log(error);
+    console.log(error);
 
-    }
+  }
 
-  };
+};
+  const fetchUsers = async () => {
+
+  try {
+
+    const response = await axios.get(
+      "http://127.0.0.1:8000/admin/users",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+
+    setUsers(response.data);
+
+  } catch (error) {
+
+    console.log(error);
+  }
+
+};
 
   const createTask = async () => {
 
     try {
 
       await axios.post(
-        "https://task-manager-backend-9di4.onrender.com/tasks",
+        "http://127.0.0.1:8000/tasks",
         {
           title
         },
@@ -152,7 +177,7 @@ function App() {
     try {
 
       await axios.delete(
-        `https://task-manager-backend-9di4.onrender.com/tasks/${id}`,
+        `http://127.0.0.1:8000/tasks/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -175,7 +200,7 @@ function App() {
     try {
 
       await axios.put(
-        `https://task-manager-backend-9di4.onrender.com/tasks/${task.id}`,
+        `http://127.0.0.1:8000/tasks/${task.id}`,
         {
           title: task.title,
           completed: !task.completed
@@ -208,8 +233,16 @@ function App() {
   useEffect(() => {
 
     if (token) {
+
       fetchTasks();
-    }
+
+      if (role === "admin") {
+
+        fetchUsers();
+
+  }
+
+}
 
 // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -513,7 +546,7 @@ function App() {
                       if (!updatedTitle) return;
 
                       axios.put(
-                        `https://task-manager-backend-9di4.onrender.com/tasks/${task.id}`,
+                        `http://127.0.0.1:8000/tasks/${task.id}`,
                         {
                           title: updatedTitle,
                           completed: task.completed
@@ -564,7 +597,52 @@ function App() {
 
         )}
 
-      </div>
+            </div>
+
+      {role === "admin" && (
+
+        <div
+          style={{
+            marginTop: "40px",
+            backgroundColor: "#ffffff",
+            padding: "20px",
+            borderRadius: "15px",
+            boxShadow: "0 0 10px rgba(0,0,0,0.1)"
+          }}
+        >
+
+          <h2
+            style={{
+              marginBottom: "20px"
+            }}
+          >
+            Admin Panel
+          </h2>
+
+          {users.map((user) => (
+
+            <div
+              key={user.id}
+              style={{
+                padding: "10px",
+                marginBottom: "10px",
+                borderBottom: "1px solid #ddd"
+              }}
+            >
+
+              <strong>{user.email}</strong>
+
+              <p>
+                Role: {user.role}
+              </p>
+
+            </div>
+
+          ))}
+
+        </div>
+
+      )}
 
     </div>
 

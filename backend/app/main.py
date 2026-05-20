@@ -10,7 +10,7 @@ from .auth import (
 from fastapi.security import OAuth2PasswordRequestForm
 from .database import engine, Base, get_db
 from .models import Task, User
-from .schemas import TaskCreate, TaskResponse,TaskUpdate,Token, UserCreate
+from .schemas import TaskCreate, TaskResponse,TaskUpdate,Token, UserCreate,UserResponse
 
 Base.metadata.create_all(bind=engine)
 
@@ -25,6 +25,26 @@ app.add_middleware(
 @app.get("/")
 def home():
     return {"message": "Task Manager API Running"}
+
+@app.get(
+    "/admin/users",
+    response_model=list[UserResponse]
+)
+def get_all_users(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+
+    if current_user.role != "admin":
+
+        raise HTTPException(
+            status_code=403,
+            detail="Admins only"
+        )
+
+    users = db.query(User).all()
+
+    return users
 
 @app.post("/tasks", response_model=TaskResponse)
 def create_task(
@@ -62,10 +82,15 @@ def register(
 
     hashed_pw = hash_password(user.password)
 
+    existing_users = db.query(User).count()
+
+    role = "admin" if existing_users == 0 else "user"
+
     new_user = User(
-        email=user.email,
-        hashed_password=hashed_pw
-    )
+    email=user.email,
+    hashed_password=hashed_pw,
+    role=role
+)
 
     db.add(new_user)
     db.commit()
@@ -103,9 +128,10 @@ def login(
     )
 
     return {
-        "access_token": access_token,
-        "token_type": "bearer"
-    }
+    "access_token": access_token,
+    "token_type": "bearer",
+    "role": db_user.role
+}
 
 @app.get("/tasks", response_model=list[TaskResponse])
 def get_tasks(
@@ -128,11 +154,19 @@ def get_tasks(
     return tasks
 
 @app.get("/tasks/{task_id}", response_model=TaskResponse)
-def get_task(task_id: int, db: Session = Depends(get_db)):
+def get_task(
+    task_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
 
-    task = db.query(Task).filter(Task.id == task_id).first()
+    task = db.query(Task).filter(
+        Task.id == task_id,
+        Task.owner_id == current_user.id
+    ).first()
 
     if not task:
+
         raise HTTPException(
             status_code=404,
             detail="Task not found"
