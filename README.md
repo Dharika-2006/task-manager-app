@@ -217,6 +217,95 @@ Deploy frontend using:
 | ACCESS_TOKEN_EXPIRE_MINUTES | Token Expiry Time |
 
 ---
+#  Running Tests
+
+## Install pytest dependencies
+
+```bash
+pip install pytest httpx
+```
+
+## Run Tests
+
+```bash
+pytest
+```
+
+---
+
+#  Docker Support
+
+## Build Docker Image
+
+```bash
+docker build -t task-manager-backend .
+```
+
+## Run Docker Container
+
+```bash
+docker run -p 8000:8000 task-manager-backend
+```
+
+Backend will run at:
+
+```bash
+http://127.0.0.1:8000
+```
+
+---
+
+#  Live Deployment
+
+## Frontend Deployment
+
+Vercel:
+```text
+https://task-manager-app-kappa-plum.vercel.app/
+```
+
+## Backend Deployment
+
+Render:
+```text
+https://task-manager-backend-9di4.onrender.com
+```
+
+## Swagger API Docs
+
+```text
+https://task-manager-backend-9di4.onrender.com/docs
+```
+
+---
+
+#  Responsive UI
+
+The frontend UI is responsive and supports:
+- Desktop devices
+- Tablet devices
+- Mobile devices
+
+---
+
+#  Security Features
+
+- JWT Authentication
+- Password hashing using bcrypt
+- Protected API routes
+- Environment variable support
+- User-specific task access
+
+---
+
+#  Additional Features
+
+- Auto login after registration
+- Edit task functionality
+- Complete task functionality
+- Logout functionality
+- Pagination support
+- Task filtering support
 
 #  Future Improvements
 
