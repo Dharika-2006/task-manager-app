@@ -27,7 +27,7 @@ def home():
     return {"message": "Task Manager API Running"}
 
 @app.get(
-    "/admin/users",
+    "/api/v1/admin/users",
     response_model=list[UserResponse]
 )
 def get_all_users(
@@ -46,7 +46,7 @@ def get_all_users(
 
     return users
 
-@app.post("/tasks", response_model=TaskResponse)
+@app.post("/api/v1/tasks", response_model=TaskResponse)
 def create_task(
     task: TaskCreate,
     db: Session = Depends(get_db),
@@ -64,7 +64,7 @@ def create_task(
 
     return new_task
 
-@app.post("/register")
+@app.post("/api/v1/register")
 def register(
     user: UserCreate,
     db: Session = Depends(get_db)
@@ -98,7 +98,7 @@ def register(
 
     return {"message": "User registered successfully"}
 
-@app.post("/login", response_model=Token)
+@app.post("/api/v1/login", response_model=Token)
 def login(
     form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db)
@@ -133,7 +133,7 @@ def login(
     "role": db_user.role
 }
 
-@app.get("/tasks", response_model=list[TaskResponse])
+@app.get("/api/v1/tasks", response_model=list[TaskResponse])
 def get_tasks(
     completed: bool = None,
     skip: int = 0,
@@ -153,7 +153,7 @@ def get_tasks(
 
     return tasks
 
-@app.get("/tasks/{task_id}", response_model=TaskResponse)
+@app.get("/api/v1/tasks/{task_id}", response_model=TaskResponse)
 def get_task(
     task_id: int,
     db: Session = Depends(get_db),
@@ -174,7 +174,7 @@ def get_task(
 
     return task
 
-@app.put("/tasks/{task_id}", response_model=TaskResponse)
+@app.put("/api/v1/tasks/{task_id}", response_model=TaskResponse)
 def update_task(
     task_id: int,
     updated_task: TaskUpdate,
@@ -201,7 +201,7 @@ def update_task(
 
     return task
 
-@app.delete("/tasks/{task_id}")
+@app.delete("/api/v1/tasks/{task_id}")
 def delete_task(
     task_id: int,
     db: Session = Depends(get_db),

@@ -18,7 +18,7 @@ function App() {
   try {
 
     await axios.post(
-      "https://task-manager-backend-9di4.onrender.com/register",
+      "https://task-manager-backend-9di4.onrender.com/api/v1/register",
       {
         email,
         password
@@ -31,7 +31,7 @@ function App() {
     formData.append("password", password);
 
     const loginResponse = await axios.post(
-      "https://task-manager-backend-9di4.onrender.com/login",
+      "https://task-manager-backend-9di4.onrender.com/api/v1/login",
       formData,
       {
         headers: {
@@ -70,7 +70,7 @@ function App() {
       formData.append("password", password);
 
       const response = await axios.post(
-        "https://task-manager-backend-9di4.onrender.com/login",
+        "https://task-manager-backend-9di4.onrender.com/api/v1/login",
         formData,
         {
           headers: {
@@ -105,7 +105,7 @@ function App() {
   try {
 
     const response = await axios.get(
-      "https://task-manager-backend-9di4.onrender.com/tasks",
+      "https://task-manager-backend-9di4.onrender.com/api/v1/tasks",
       {
         headers: {
           Authorization: `Bearer ${token}`
@@ -127,7 +127,7 @@ function App() {
   try {
 
     const response = await axios.get(
-      "https://task-manager-backend-9di4.onrender.com/admin/users",
+      "https://task-manager-backend-9di4.onrender.com/api/v1/admin/users",
       {
         headers: {
           Authorization: `Bearer ${token}`
@@ -149,7 +149,7 @@ function App() {
     try {
 
       await axios.post(
-        "https://task-manager-backend-9di4.onrender.com/tasks",
+        "https://task-manager-backend-9di4.onrender.com/api/v1/tasks",
         {
           title
         },
@@ -177,7 +177,7 @@ function App() {
     try {
 
       await axios.delete(
-        `https://task-manager-backend-9di4.onrender.com/tasks/${id}`,
+        `https://task-manager-backend-9di4.onrender.com/api/v1/tasks/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -200,7 +200,7 @@ function App() {
     try {
 
       await axios.put(
-        `https://task-manager-backend-9di4.onrender.com/tasks/${task.id}`,
+        `https://task-manager-backend-9di4.onrender.com/api/v1/tasks/${task.id}`,
         {
           title: task.title,
           completed: !task.completed
@@ -546,7 +546,7 @@ function App() {
                       if (!updatedTitle) return;
 
                       axios.put(
-                        `https://task-manager-backend-9di4.onrender.com/tasks/${task.id}`,
+                        `https://task-manager-backend-9di4.onrender.com/api/v1/tasks/${task.id}`,
                         {
                           title: updatedTitle,
                           completed: task.completed

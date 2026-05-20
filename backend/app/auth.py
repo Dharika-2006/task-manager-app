@@ -16,7 +16,7 @@ ALGORITHM = os.getenv("ALGORITHM")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 
 oauth2_scheme = OAuth2PasswordBearer(
-    tokenUrl="login"
+    tokenUrl="/api/v1/login"
 )
 pwd_context = CryptContext(
     schemes=["bcrypt"],
