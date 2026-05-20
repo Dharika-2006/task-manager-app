@@ -546,7 +546,7 @@ function App() {
                       if (!updatedTitle) return;
 
                       axios.put(
-                        `http://127.0.0.1:8000/tasks/${task.id}`,
+                        `https://task-manager-backend-9di4.onrender.com/tasks/${task.id}`,
                         {
                           title: updatedTitle,
                           completed: task.completed
